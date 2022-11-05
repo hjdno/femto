@@ -612,6 +612,7 @@ def coupler(param, d=None):
 def _example():
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
+    import dill
 
     # Data
     PARAMETERS_WG = dotdict(
@@ -640,6 +641,16 @@ def _example():
             .linear(increment)
         wg.end()
         mzi.append(wg)
+
+    # Export waveguide
+    filename = 'wg.pickle'
+    wg.export(filename)
+
+    # Load waveguide
+    with open(filename, 'rb') as f:
+        new_wg = dill.load(f)
+    print(type(new_wg))
+    print(new_wg.x)
 
     # Plot
     fig = plt.figure()

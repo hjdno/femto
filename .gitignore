@@ -122,8 +122,9 @@ fit_stress_test.py
 *.pgm
 *.ogm
 
-# Pickle functions
+# Pickle objects
 *.pkl
+*.pickle
 
 # Documentation
 docs/*

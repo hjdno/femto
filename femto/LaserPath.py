@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
+import dill
 import numpy as np
+
 from femto.helpers import dotdict
 from femto.Parameters import LaserPathParameters
 
@@ -158,6 +160,21 @@ class LaserPath(LaserPathParameters):
         dists = np.sqrt(np.diff(x) ** 2 + np.diff(y) ** 2 + np.diff(z) ** 2)
         times = dists / f[1:]
         self._wtime = (sum(times)) * self.scan
+
+    def export(self, filename: str) -> None:
+        """
+        Simple method to export objects using dill.
+
+        :param filename: filename of the pickle object
+        :type filename: str
+        """
+
+        if not filename.lower().endswith(('.pickle', 'pkl')):
+            filename += '.pkl'
+
+        with open(filename, 'wb') as p:
+            dill.dump(self, p)
+            print(f"{self.__class__.__name__} correctly exported to {filename}.")
 
     # Private interface
     def _unique_points(self):
