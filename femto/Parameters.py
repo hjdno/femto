@@ -404,10 +404,12 @@ class GcodeParameters:
                                  f'Given ({self.samplesize[0]}, {self.samplesize[1]}).')
             function_pickle = os.path.join(self.CWD, "fwarp.pkl")
             if os.path.exists(function_pickle):
-                fwarp = pickle.load(open(function_pickle, "rb"))
+                with open(function_pickle, "rb") as f:
+                    fwarp = pickle.load(f)
             else:
                 fwarp = self.antiwarp_generation(self.samplesize, num)
-                pickle.dump(fwarp, open(function_pickle, "wb"))
+                with open(function_pickle, "wb") as f:
+                    pickle.dump(fwarp, f)
         else:
             def fwarp(x, y):
                 return 0
